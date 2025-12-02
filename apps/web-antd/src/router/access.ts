@@ -24,17 +24,21 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
 
   return await generateAccessible(preferences.app.accessMode, {
     ...options,
+    // 从后端获取菜单路由的异步函数
     fetchMenuListAsync: async () => {
       message.loading({
         content: `${$t('common.loadingMenu')}...`,
         duration: 1.5,
       });
+      // 调用后端接口 /menu/all 获取路由数据
       return await getAllMenusApi();
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,
     // 如果 route.meta.menuVisibleWithForbidden = true
+    // 布局组件映射（BasicLayout、IFrameView）
     layoutMap,
+    // 自动扫描 views/**/*.vue 文件作为页面组件
     pageMap,
   });
 }
